@@ -2,8 +2,15 @@ POST http://localhost:8080/api/signup
 Content-Type: application/json
 
 {
-    "firstName": "Quadr",
-    "lastName": "Sikiru",
-    "email": "olashina201@gmal.com",
-    "password": "Quadri201"
+    "firstName": "ssss",
+    "lastName": "sikiru",
+    "email": "olashina222gmail.com",
+    "password": "333"
+    "weight": 23,
+    "height": 12,
+    "phone": "08136156937",
+    "gender": "male",
+    "age": 21,
+    "bloodGroup": "a",
+    "picture": "sdd"
 }

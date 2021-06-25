@@ -24,21 +24,42 @@ const signin = async (req, res) => {
 };
 
 const signup = async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, email, password, weight, height, phone, gender, age, bloodGroup, picture } = req.body;
 
   try {
-    
     const oldUser = await UserModal.findOne({ email });
     if (oldUser) return res.status(400).json({ message: "User already exists" });
     const hashedPassword = await bcrypt.hash(password, 12);
-    const result = await UserModal.create({ email, password: hashedPassword, firstName, lastName });
+    const result = await UserModal.create({ email, password: hashedPassword, firstName, lastName, weight, height, phone, gender, age, bloodGroup, picture });
     const token = jwt.sign( { email: result.email, id: result._id }, secret, { expiresIn: "1h" } );
     res.status(201).json({ result, token });
-
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
     console.log(error);
   }
 };
 
-module.exports = { signin, signup };
+const getUsers = async (req, res) => { 
+
+  try {
+    const users = await UserModal.find().toArray();
+      
+    res.status(200).json(users);
+  } catch (error) {
+      res.status(404).json({ message: error.message });
+  }
+};
+
+const getUser = async (req, res) => { 
+  const { id } = req.params;
+
+  try {
+      const user = await UserModal.findById(id);
+      
+      res.status(200).json(user);
+  } catch (error) {
+      res.status(404).json({ message: error.message });
+  }
+};
+
+module.exports = { signin, signup, getUsers, getUser };
