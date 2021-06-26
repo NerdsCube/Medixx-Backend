@@ -40,21 +40,19 @@ const signup = async (req, res) => {
 };
 
 const getUsers = async (req, res) => { 
-
-  try {
-    const users = await UserModal.find().toArray();
-      
-    res.status(200).json(users);
-  } catch (error) {
+    await UserModal.find({}).toArray()
+    .then((users) =>{
+      res.status(200).json(users);
+    })
+    .catch((error) => {
       res.status(404).json({ message: error.message });
-  }
+    })
 };
 
 const getUser = async (req, res) => { 
-  const { id } = req.params;
-
+  const { email } = req.params;
   try {
-      const user = await UserModal.findById(id);
+      const user = await UserModal.findOne(email);
       
       res.status(200).json(user);
   } catch (error) {
